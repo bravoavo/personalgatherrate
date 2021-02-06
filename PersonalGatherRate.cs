@@ -32,8 +32,11 @@ namespace Oxide.Plugins
             {
                 ["NoPermission"] = "<color=orange>[PGR]</color> You do not have the permissions to use this command.",
                 ["Usage"] = "<color=orange>[PGR]</color> Usage: /pgr set STEAMID RATE1-50 | remove STEAMID | check STEAMID",
+                ["Increased"] = "<color=orange>[PGR]</color> Player {0} has Gather Rate X{1}",
+                ["Deleted"] = "<color=orange>[PGR]</color> Player {0} has default Gather Rate ",
                 ["StatsErr"] = "<color=orange>[PGR]</color> Player Not Found",
-                ["Stats"] = "<color=orange>[PGR]</color> Player {0} has Gather Rate {1}"
+                ["StatsErr"] = "<color=orange>[PGR]</color> Multiplier has to be an integer from 1 to 49. But given {0}",
+                ["Stats"] = "<color=orange>[PGR]</color> Player {0} has Gather Rate X{1}"
             }, this);
         }
 
@@ -106,20 +109,23 @@ namespace Oxide.Plugins
                         if (args.Length == 3)
                         {
                             int grate = Convert.ToInt32(args[2]);
-                            if (grate > 1 && grate < 50)
+                            if (grate > 0 && grate < 50)
                             {
                                 string teampid = args[1];
                                 if (!gatherMultiplier.ContainsKey(teampid))
                                 {
                                     gatherMultiplier.Add(teampid, grate);
-                                    if (debug) Puts("Gather rate " + grate);
+                                    if (debug) Puts("Gather rate increased up to X" + grate);
+                                    player.ChatMessage(Lang("Increased", player.UserIDString, teampid, gatherMultiplier[teampid]));
                                 }
                                 else
                                 {
                                     gatherMultiplier[teampid] = grate;
+                                    player.ChatMessage(Lang("Increased", player.UserIDString, teampid, gatherMultiplier[teampid]));
                                     if (debug) Puts("Gather rate increased up to X" + grate);
                                 }
                             }
+                            else player.ChatMessage(Lang("MError", player.UserIDString, grate));
                             SaveData();
                         }
                         break;
@@ -131,6 +137,7 @@ namespace Oxide.Plugins
                             if (gatherMultiplier.ContainsKey(teampid))
                             {
                                 gatherMultiplier.Remove(teampid);
+                                player.ChatMessage(Lang("Deleted", player.UserIDString, teampid));
                             }
                             else player.ChatMessage(Lang("StatsErr", player.UserIDString));
                             SaveData();
