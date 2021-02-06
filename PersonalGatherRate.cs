@@ -35,7 +35,7 @@ namespace Oxide.Plugins
                 ["Increased"] = "<color=orange>[PGR]</color> Player {0} has Gather Rate X{1}",
                 ["Deleted"] = "<color=orange>[PGR]</color> Player {0} has default Gather Rate ",
                 ["StatsErr"] = "<color=orange>[PGR]</color> Player Not Found",
-                ["StatsErr"] = "<color=orange>[PGR]</color> Multiplier has to be an integer from 1 to 49. But given {0}",
+                ["MError"] = "<color=orange>[PGR]</color> Multiplier has to be an integer from 1 to 49. But given {0}",
                 ["Stats"] = "<color=orange>[PGR]</color> Player {0} has Gather Rate X{1}"
             }, this);
         }
